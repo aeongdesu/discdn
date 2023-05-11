@@ -37,7 +37,7 @@ returns `OK` if success
   "DestinationType": "ImageUploader, FileUploader",
   "RequestMethod": "POST",
   "RequestURL": "https://DOMAIN_HERE/file/upload",
-  "Headers": {
+  "Arguments": {
     "api_key": "API_KEY HERE"
   },
   "Body": "MultipartFormData",

@@ -22,7 +22,7 @@ app.get("/", async (req, res) => {
 })
 
 app.post("/file/upload", async (req, res) => {
-    if (req.header("api_key") !== (await db.get("_API_KEY"))?.value) return res.sendStatus(403)
+    if (req.body["api_key"] !== (await db.get("_API_KEY"))?.value) return res.sendStatus(403)
     if (!req.files?.file) return res.sendStatus(400).send("No files were uploaded")
     const file = req.files.file
     if (!file.size > 26214400) return res.sendStatus(413) // up to 25mb
