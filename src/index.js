@@ -23,7 +23,7 @@ app.get("/", async (req, res) => {
 })
 
 app.post("/file/upload", async (req, res) => {
-    //if (req.body["api_key"] !== (await db.get("_API_KEY"))?.value) return res.sendStatus(403)
+    if (req.body["api_key"] !== (await db.get("_API_KEY"))?.value) return res.sendStatus(403)
     if (!req.files?.file) return res.sendStatus(400).send("No files were uploaded")
     const file = req.files.file
     if (!file.size > 26214400) return res.sendStatus(413) // up to 25mb
@@ -32,7 +32,7 @@ app.post("/file/upload", async (req, res) => {
     const form = new FormData()
     form.append("file", new Blob([file.data]), file.name)
 
-    const webhook = await fetch(`${process.env.DISCORD_WEBHOOK}${process.env.THREAD_ID ? process.env.THREAD_ID : ""}`, {
+    const webhook = await fetch(`${process.env.DISCORD_WEBHOOK}?wait=true${process.env.THREAD_ID ? `&thread_id=${process.env.THREAD_ID}` : ""}`, {
         method: "POST",
         body: form
     })
