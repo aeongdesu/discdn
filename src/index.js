@@ -2,6 +2,7 @@ import "dotenv/config"
 import express from "express"
 import FileUpload from "express-fileupload"
 import { FormData, fetch } from "undici"
+import { Blob } from "node:buffer"
 import { Deta } from "deta"
 import { v4 as generateUuid } from "uuid"
 
@@ -22,7 +23,7 @@ app.get("/", async (req, res) => {
 })
 
 app.post("/file/upload", async (req, res) => {
-    if (req.body["api_key"] !== (await db.get("_API_KEY"))?.value) return res.sendStatus(403)
+    //if (req.body["api_key"] !== (await db.get("_API_KEY"))?.value) return res.sendStatus(403)
     if (!req.files?.file) return res.sendStatus(400).send("No files were uploaded")
     const file = req.files.file
     if (!file.size > 26214400) return res.sendStatus(413) // up to 25mb
