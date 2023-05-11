@@ -1,3 +1,5 @@
+[Install on Space 🚀](https://deta.space/discovery/@bread/discdn)
+
 ### env
 `DISCORD_WEBHOOK`: discord webhook url
 
