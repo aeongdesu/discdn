@@ -1,0 +1,12 @@
+v: 0
+micros:
+  - name: discdn
+    src: .
+    engine: nodejs16
+    public: true
+    dev: "nodemon src/index.js"
+    run: "node src/index.js"
+    presets:
+      env:
+        - name: DISCORD_WEBHOOK
+        - name: THREAD_ID
