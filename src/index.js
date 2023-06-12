@@ -26,6 +26,7 @@ app.post("/file/upload", async (req, res) => {
     if (req.body["api_key"] !== (await db.get("_API_KEY"))?.value) return res.sendStatus(403)
     if (!req.files?.file) return res.sendStatus(400).send("No files were uploaded")
     const file = req.files.file
+    const mimeType = file.mimetype.split("/").pop()
     if (file.size > 26214400) return res.sendStatus(413) // up to 25mb
 
     const code = generate()
@@ -43,19 +44,20 @@ app.post("/file/upload", async (req, res) => {
     await db.put({
         url: json.attachments[0].url,
         id: json.id,
-        deleteCode: uuid
+        deleteCode: uuid,
+        mimeType: mimeType
     }, code)
 
     return res.send({
         code: code,
-        url: `https://${req.headers.host}/${code}`,
+        url: `https://${req.headers.host}/${code}.${mimeType}`,
         discord_url: json.attachments[0].url,
         del_url: `https://${req.headers.host}/delete/${code}/${uuid}`
     })
 })
 
 app.get("/:code", async (req, res) => {
-    const file = await db.get(req.params.code)
+    const file = await db.get(req.params.code.split(".").shift())
     if (!file) return res.sendStatus(404)
     return res.redirect(file.url)
 })

@@ -14,7 +14,7 @@ returns api key if you visited **first time.**
 redirects to discord cdn url.
 
 #### POST `/file/upload`
-check sharex config!
+check sharex config!\
 returns object
 ```json
 {
